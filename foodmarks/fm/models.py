@@ -7,11 +7,11 @@ from constants import *
 
 class Recipe(models.Model):
     title = models.CharField(max_length=200)
-    link = models.URLField(blank=True, null=True, max_length=255, unique=True)
-    servings = models.CharField(max_length=100, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    ingredients = models.TextField(blank=True, null=True)
-    directions = models.TextField(blank=True, null=True)
+    link = models.URLField(max_length=255, blank=True, null=True, unique=True)
+    servings = models.CharField(max_length=100, blank=True)
+    description = models.TextField(blank=True)
+    ingredients = models.TextField(blank=True)
+    directions = models.TextField(blank=True)
 
     time_created = models.DateTimeField(auto_now_add=True)
 
@@ -76,7 +76,7 @@ class Ribbon(models.Model):
     recipe = models.ForeignKey(Recipe)
     user = models.ForeignKey(User)
     comments = models.TextField(
-            blank=True, null=True,verbose_name="my comments")
+            blank=True, verbose_name="my comments")
     time_created = models.DateTimeField(auto_now_add=True)
 
     is_boxed = models.BooleanField(
@@ -118,8 +118,8 @@ class Ribbon(models.Model):
 
 class Tag(models.Model):
     ribbon = models.ForeignKey(Ribbon)
-    key = models.CharField(max_length=50)
-    value = models.CharField(max_length=50, blank=True, null=True)
+    key = models.CharField(max_length=50, blank=True, help_text='Deprecated')
+    value = models.CharField(max_length=50)
 
     def __unicode__(self):
         return u'{0}: {1}'.format(self.key, self.value)
