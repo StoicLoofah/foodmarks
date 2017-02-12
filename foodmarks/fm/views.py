@@ -35,12 +35,7 @@ class JsonResponse(HttpResponse):
 
 
 def index(request):
-    if request.user.is_authenticated():
-        return redirect(reverse(search_recipes))
-    ctx = {
-        'recipes': Recipe.objects.order_by('-time_created')[0:PAGE_SIZE],
-    }
-    return render(request, 'index.html', ctx)
+    return redirect(reverse(search_recipes))
 
 
 @login_required(login_url="/accounts/login/")
@@ -299,6 +294,11 @@ def search_recipes(request):
     else:
         ribbons = Ribbon.objects.filter(user=request.user)
 
+    if request.user.is_authenticated() and request.GET.get('recipebox'):
+        ctx['recipe_box'] = True
+        ribbons = ribbons.filter(user=request.user, is_boxed=True).order_by(
+            '-boxed_on', '-time_created')
+
     query_string = request.GET.get('q', '')
     if query_string != '':
         ctx['q'] = query_string
@@ -317,28 +317,16 @@ def search_recipes(request):
     _paginate_content(request, ctx, 'ribbons')
 
     tags = Tag.objects.filter(ribbon__in=ribbons).values('key', 'value').annotate(count=Count('value')).order_by('value')
-    tag_map = {}
-    priority = 0
     for tag in tags:
-        if not tag['key'] in tag_map:
-            tag_map[tag['key']] = {}
-        value = {'value': tag['value'], 'count': tag['count'],
-                 'priority': priority}
         if tag['key'] + ':' + tag['value'] in selected_tags:
-            value['selected'] = True
-        tag_map[tag['key']][tag['value']] = value
-        priority += 1
+            tag['selected'] = True
 
     if all_ribbons:
         ctx['recipes'] = Recipe.objects.filter(
             ribbon__in=ribbons).distinct()
         _paginate_content(request, ctx, 'recipes')
 
-    tags_ordered = []
-    for key, values in tag_map.items():
-        tags_ordered.append((key, sorted(values.values(),
-                                         key=lambda a: a['priority']),))
-    ctx['search_tags'] = sorted(tags_ordered, key=_get_key_order)
+    ctx['search_tags'] = tags
 
     return render(request, 'search.html', ctx)
 
@@ -354,16 +342,6 @@ def delete_ribbon(request, ribbon_id):
     if not recipe.ribbon_set.exists():
         recipe.delete();
     return HttpResponse('OK', mimetype="application/json")
-
-
-@login_required(login_url="/accounts/login/")
-def recipe_box(request):
-    ctx = {
-        'ribbons': Ribbon.objects.filter(
-            user=request.user, is_boxed=True).select_related(
-                'recipe').order_by('-boxed_on', '-time_created'),
-    }
-    return render(request, 'recipe_box.html', ctx)
 
 
 @login_required(login_url="/accounts/login/")

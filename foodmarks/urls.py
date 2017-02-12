@@ -12,7 +12,6 @@ urlpatterns = [
     url(r'^action/', views.action),
     url(r'^bookmarklet/', views.bookmarklet),
     url(r'^edit/(\d+)/$', views.edit_recipe, name='edit_recipe'),
-    url(r'^recipebox/', views.recipe_box, name='recipe_box'),
     url(r'^recipe/(\d+)/$', views.view_recipe, name='view_recipe'),
     url(r'^ribbon/delete/(\d+)/$', views.delete_ribbon),
     url(r'^search/$', views.search_recipes, name='search_recipes'),
