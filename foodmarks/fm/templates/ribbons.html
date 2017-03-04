@@ -23,7 +23,7 @@
       </div>
       <div class="tags">
         {% for tag in ribbon.tag_set.all %}
-        <a href="{% url 'search_recipes' %}?tag={{tag.key}}:{{tag.value}}" ><span class="badge badge-default">{{tag.value}}</span></a>&nbsp;
+        <a href="{% url 'search_recipes' %}?query={{tag.value}}" ><span class="badge badge-default">{{tag.value}}</span></a>&nbsp;
         {% endfor %}
       </div>
     </td>

@@ -299,34 +299,26 @@ def search_recipes(request):
         ribbons = ribbons.filter(user=request.user, is_boxed=True).order_by(
             '-boxed_on', '-time_created')
 
-    query_string = request.GET.get('q', '')
-    if query_string != '':
-        ctx['q'] = query_string
+    query = request.GET.get('q')
+    if query:
+        ctx['query'] = query
         ribbons = ribbons.filter(reduce(operator.and_,
-            (Q(recipe__title__icontains=token)
-            for token in query_string.split(' ') if token)))
+            (Q(recipe__title__icontains=token) | Q(tag__value__icontains=token)
+            for token in query.split(',') if token)))
 
-    selected_tags = request.GET.getlist('tag')
-    if selected_tags:
-        split_selected_tags = map(lambda s:s.split(':'), selected_tags)
-
-        for split_selected_tag in split_selected_tags:
-            ribbons = ribbons.filter(tag__key=split_selected_tag[0], tag__value=split_selected_tag[1])
-
+    ribbons = ribbons.distinct()
     ctx['ribbons'] = ribbons
     _paginate_content(request, ctx, 'ribbons')
 
-    tags = Tag.objects.filter(ribbon__in=ribbons).values('key', 'value').annotate(count=Count('value')).order_by('value')
-    for tag in tags:
-        if tag['key'] + ':' + tag['value'] in selected_tags:
-            tag['selected'] = True
+    tags = Tag.objects.filter(ribbon__in=ribbons).values('value').annotate(
+        count=Count('value')).order_by('value')
 
     if all_ribbons:
         ctx['recipes'] = Recipe.objects.filter(
             ribbon__in=ribbons).distinct()
         _paginate_content(request, ctx, 'recipes')
 
-    ctx['search_tags'] = tags
+    ctx['search_tags_json'] = json.dumps(list(tags))
 
     return render(request, 'search.html', ctx)
 
