@@ -28,18 +28,9 @@
     <div class="col">
       <div id="edit-tags">
         <h3>Tags</h3>
-        <input id="tag-json" name="tag-json" type="hidden" />
-        <table id="current-tags" class="tag-table">
-        </table>
-        <label for="new-value">Tag: </label>
-        <input id="new-value" type="text"/>
-        <label for="new-key"> Category: </label>
-        <input id="new-key" type="text"/>
-        <input type="button" id="add-tag" value="Add" style="display: none;" />
-        <img id="tag-loader" class="loader" src="{{STATIC_URL}}/images/loader.gif" style="display: none;" />
-        <p><small>Tips: <br/ >Hit enter after typing a tag to guess the category. <br />Hit enter again when you have a tag and category to add it.</small></p>
+        <input id="current-tags" name="tags" type="text" value="{{ tags }}" />
       </div>
-      <input id="save-recipe" type="button" value="Save Recipe" />
+      <input id="save-recipe" type="submit" value="Save Recipe" />
     </div>
   </div>
 </form>
@@ -48,11 +39,6 @@
 
 {% block js %}
 <script type="text/javascript">
-  var knownValuesToKeys = {
-    {% for value, key in known_values_to_keys.items %}
-    '{{value}}': '{{key}}'{% if not forloop.last %},{% endif %}
-    {% endfor %}
-  }
 
   $(document).ready(function(){
     $('textarea').focusin(function(){
@@ -61,24 +47,16 @@
         $(this).animate({height: 40}, 100);
       });
 
-    $('#save-recipe').click(function(){
-      document.getElementById('tag-json').value = generateTagJsonString();
-      $('#mainform').submit();
-    });
+    var allTags = {{ all_tags|safe }};
+    var processedTags = _.map(allTags, function(tag) {return {text: tag, value: tag};});
 
-    jQuery.fx.off = true;
-    {% for key, values in tags.items %}
-    {% for value, value_dict in values.items %}
-    {% if not value_dict.deleted %}
-    {% if value_dict.id %}
-    addTag('{{key}}', '{{value}}', {{value_dict.id}});
-    {% else %}
-    addTag('{{key}}', '{{value}}');
-    {% endif %}
-    {% endif %}
-    {% endfor %}
-    {% endfor %}
-    jQuery.fx.off = false;
+    $("#current-tags").selectize({
+      create: true,
+      delimiter: ',',
+      options: processedTags,
+      closeAfterSelect: true
+    })
+
   });
 </script>
 {% endblock %}

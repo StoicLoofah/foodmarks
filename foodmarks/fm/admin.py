@@ -13,7 +13,7 @@ class RibbonAdmin(admin.ModelAdmin):
 
 class TagAdmin(admin.ModelAdmin):
     search_fields = ('key', 'value', )
-    list_display = ('key', 'value', 'ribbon', )
+    list_display = ('value', 'key', 'ribbon', )
     list_filter = ('key', )
     raw_id_fields = ('ribbon', )
 

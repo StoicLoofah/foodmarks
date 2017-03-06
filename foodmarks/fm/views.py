@@ -103,7 +103,8 @@ def _save_recipe(request, ctx, ribbon=None, recipe=None):
             except ObjectDoesNotExist:
                 pass
 
-    ctx['known_values_to_keys'] = known_values_to_keys
+    ctx['all_tags'] = json.dumps(list(Tag.objects.values_list(
+        'value', flat=True).order_by('value').distinct()))
     if ribbon and not recipe:
         recipe = ribbon.recipe
 
@@ -147,42 +148,35 @@ def _save_recipe(request, ctx, ribbon=None, recipe=None):
             ribbon.user = request.user
         ribbon.save()
 
-        tags = json.loads(request.POST['tag-json'])
-        for key in tags:
-            for value in tags[key]:
-                if value == '':
-                    value = None
-                if tags[key][value].get('id'):  # update if possible
-                    tag = Tag.objects.get(id=tags[key][value]['id'])
-                    if tags[key][value].get('deleted', False):
-                        tag.delete()
-                elif not tags[key][value].get('deleted', False):  # create
-                    Tag(ribbon=ribbon, key=key, value=value).save()
+        my_current_tags = {tag.value: tag for tag in ribbon.tag_set.all()}
+        tags = request.POST.get('tags','').split(',')
+        for value in tags:
+            if not value:
+                continue
+            if not value in my_current_tags:
+                # add it
+                Tag.objects.create(ribbon=ribbon, value=value)
+            else:
+                # don't delete it later
+                del my_current_tags[value]
+        for removed_tag in my_current_tags.values():
+            removed_tag.delete()
         saved = True
     elif recipe_form.errors or ribbon_form.errors:
-        tags = json.loads(request.POST['tag-json'])
+        tags = request.POST.get('tags','').split(',')
     else:
-        tags = {}
         if ribbon:
-            actual_tags = ribbon.tag_set.all()
-            for actual_tag in actual_tags:
-                if not actual_tag.key in tags:
-                    tags[actual_tag.key] = {}
-                tags[actual_tag.key][actual_tag.value] = \
-                    {'id': actual_tag.id}
+            tags = list(ribbon.tag_set.values_list('value', flat=True))
         elif recipe and request.user.get_profile().copy_tags:
-            actual_tags = Tag.objects.filter(ribbon__recipe=recipe)
-            for actual_tag in actual_tags:
-                if not actual_tag.key in tags:
-                    tags[actual_tag.key] = {}
-                tags[actual_tag.key][actual_tag.value] = {}
+            tags = list(Tag.objects.filter(ribbon__recipe=recipe).values_list(
+                'value', flat=True).distinct())
 
     ctx.update({
         'recipe_form': recipe_form,
         'ribbon_form': ribbon_form,
         'ribbon': ribbon,
         'recipe': recipe,
-        'tags': tags,
+        'tags': ','.join(tags),
         })
 
     if request.method == 'GET':
