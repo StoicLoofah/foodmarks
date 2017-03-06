@@ -261,15 +261,6 @@ def view_recipe(request, recipe_id):
     return render(request, 'view_recipe.html', ctx)
 
 
-def _get_key_order(val):
-    key = val[0]
-    try:
-        index = ordered_known_keys.index(key)
-        return '{0: 3d}'.format(index)
-    except ValueError:
-        return '{0: 3d}{1}'.format(len(ordered_known_keys), key)
-
-
 @require_http_methods(["GET"])
 def search_recipes(request):
     ctx = {}
