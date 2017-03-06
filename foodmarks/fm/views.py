@@ -26,12 +26,12 @@ class JsonResponse(HttpResponse):
     return it as a response
     '''
 
-    def __init__(self, content, mimetype="application/json", *args, **kwargs):
+    def __init__(self, content, content_type="application/json", *args, **kwargs):
         if content:
             content = json.dumps(content)
         else:
             content = json.dumps({})
-        super(JsonResponse, self).__init__(content, mimetype, *args, **kwargs)
+        super(JsonResponse, self).__init__(content, content_type=content_type, *args, **kwargs)
 
 
 def index(request):
@@ -316,12 +316,12 @@ def delete_ribbon(request, ribbon_id):
     try:
         ribbon = Ribbon.objects.get(id=ribbon_id, user=request.user)
     except ObjectDoesNotExist:
-        return HttpResponse('ERROR', mimetype="application/json")
+        return JsonResponse('ERROR')
     recipe = ribbon.recipe
     ribbon.delete()
     if not recipe.ribbon_set.exists():
         recipe.delete();
-    return HttpResponse('OK', mimetype="application/json")
+    return JsonResponse('OK')
 
 
 @login_required(login_url="/accounts/login/")
@@ -335,12 +335,12 @@ def action(request):
         try:
             ribbon = Ribbon.objects.get(id=ribbon_id, user=request.user)
         except ObjectDoesNotExist:
-            return HttpResponse('ERROR', mimetype="application/json")
+            return JsonResponse('ERROR')
         recipe = ribbon.recipe
         ribbon.delete()
         if not recipe.ribbon_set.exists():
             recipe.delete()
-        return HttpResponse('OK', mimetype="application/json")
+        return JsonResponse('OK')
     elif action == 'changeBoxStatus':
         new_status = request.POST.get('newStatus', None) == 'true'
         recipe_id = request.POST.get('recipeId', None)
@@ -373,32 +373,3 @@ def action(request):
 
     else:
         return JsonResponse({'status':'OK'})
-
-
-@login_required(login_url="/accounts/login/")
-def get_tag_category(request):
-    if not request.method == 'GET':
-        return JsonResponse({'status': 'OK'})
-    value = request.GET.get('value', None)
-    if not value:
-        return JsonResponse({'status': 'OK', 'categories': ['']})
-    seen_categories = set()
-    categories = []
-
-    users_tags = Tag.objects.filter(value=value, ribbon__user=request.user).values('key').annotate(count=Count('key')).order_by('-count')
-    for tag in users_tags:
-        categories.append(tag['key'])
-        seen_categories.add(tag['key'])
-
-    known_key = known_values_to_keys.get(value, None)
-    if known_key and not known_key in seen_categories:
-        categories.append(known_key)
-        seen_categories.add(known_key)
-
-    other_tags = Tag.objects.filter(value=value).values('key').annotate(count=Count('key')).order_by('-count')
-    for tag in other_tags:
-        if not tag['key'] in seen_categories:
-            categories.append(tag['key'])
-            seen_categories.add(tag['key'])
-
-    return JsonResponse({'status': 'OK', 'categories': categories})
