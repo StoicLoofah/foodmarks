@@ -15,29 +15,8 @@ class Recipe(models.Model):
 
     time_created = models.DateTimeField(auto_now_add=True)
 
-    def get_tag_dict(self, user=None, dedup=True):
-        if user is not None:
-            try:
-                ribbon = Ribbon.objects.get(recipe=self, user=user)
-                return ribbon.get_tag_dict()
-            except ObjectDoesNotExist:
-                return {}
-        if getattr(self, '_tag_dict', None) is None:
-            tags = Tag.objects.filter(ribbon__recipe=self)
-            tag_dict = {}
-            for tag in tags:
-                if not tag.key in tag_dict:
-                    tag_dict[tag.key] = [tag.value]
-                else:
-                    tag_dict[tag.key].append(tag.value)
-            for key, value in tag_dict.iteritems():
-                if dedup:
-                    tag_dict[key] = sorted(set(value))
-                else:
-                    value.sort()
-
-            self._tag_dict = tag_dict
-        return self._tag_dict
+    def get_tags(self):
+        return sorted(Tag.objects.filter(ribbon__recipe=self).values_list('value', flat=True).distinct())
 
     def get_used_count(self):
         count = 0
@@ -93,19 +72,8 @@ class Ribbon(models.Model):
             blank=True, null=True, choices=THUMB_CHOICES,
             verbose_name="How's the recipe?")
 
-    def get_tag_dict(self):
-        if getattr(self, '_tag_dict', None) is None:
-            tags = self.tag_set.all()
-            tag_dict = {}
-            for tag in tags:
-                if not tag.key in tag_dict:
-                    tag_dict[tag.key] = [tag.value]
-                else:
-                    tag_dict[tag.key].append(tag.value)
-            for value in tag_dict.itervalues():
-                value.sort()
-            self._tag_dict = tag_dict
-        return self._tag_dict
+    def get_tags(self):
+        return sorted(self.tag_set.values_list('value', flat=True).distinct())
 
     def __unicode__(self):
         return u'{0} Ribbon for {1}'.format(unicode(self.recipe),

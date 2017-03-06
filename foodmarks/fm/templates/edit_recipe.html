@@ -15,7 +15,6 @@
   <div class="row">
     <div class="col">
       {{recipe_form|crispy}}
-      {{ribbon_form|crispy}}
       {% if user.is_staff %}
       <label>Add ribbon as:</label>
       <select name="user">
@@ -26,6 +25,7 @@
       {% endif %}
     </div>
     <div class="col">
+      {{ribbon_form|crispy}}
       <div id="edit-tags">
         <h3>Tags</h3>
         <input id="current-tags" name="tags" type="text" value="{{ tags }}" />
@@ -45,7 +45,7 @@
         $(this).animate({height: 120}, 100);
       }).focusout(function() {
         $(this).animate({height: 40}, 100);
-      });
+      }).trigger('focusout');
 
     var allTags = {{ all_tags|safe }};
     var processedTags = _.map(allTags, function(tag) {return {text: tag, value: tag};});

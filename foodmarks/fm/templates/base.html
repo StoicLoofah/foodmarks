@@ -47,10 +47,12 @@
           </li>
           {% endif %}
         </ul>
+        {% comment %}
         <form id="nav-searchform" name="nav-searchform" action="{% url 'search_recipes' %}" method="get" class="form-inline mt-2 mt-md-0">
           <input id="nav-search" name="q" class="form-control mr-sm-2" type="text" placeholder="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
+        {% endcomment %}
       </div>
     </nav>
     {% endblock %}

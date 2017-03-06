@@ -170,6 +170,8 @@ def _save_recipe(request, ctx, ribbon=None, recipe=None):
         elif recipe and request.user.get_profile().copy_tags:
             tags = list(Tag.objects.filter(ribbon__recipe=recipe).values_list(
                 'value', flat=True).distinct())
+        else:
+            tags = ''
 
     ctx.update({
         'recipe_form': recipe_form,
@@ -241,25 +243,17 @@ def view_recipe(request, recipe_id):
             ribbon = Ribbon.objects.get(recipe=recipe, user=request.user)
             ctx['ribbon'] = ribbon
             ctx['other_ribbons'] = Ribbon.objects.filter(recipe=recipe).exclude(id=ribbon.id)
-            my_tags = ribbon.get_tag_dict()
-            all_tags = recipe.get_tag_dict()
+            my_tags = ribbon.get_tags()
+            all_tags = recipe.get_tags()
 
-            other_tags = {}
-
-            for key, values in all_tags.items():
-                if key in my_tags:
-                    temp = [value for value in values if value not in my_tags[key]]
-                    if temp:
-                        other_tags[key] = temp
-                else:
-                    other_tags[key] = values
+            other_tags = sorted(set(all_tags) - set(my_tags))
 
             ctx['my_tags'] = my_tags
             ctx['other_tags'] = other_tags
 
         except ObjectDoesNotExist:
             ctx['other_ribbons'] = Ribbon.objects.filter(recipe=recipe)
-            ctx['other_tags'] = recipe.get_tag_dict()
+            ctx['other_tags'] = recipe.get_tags()
 
 
     ctx['recipe'] = recipe
