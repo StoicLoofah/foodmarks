@@ -13,17 +13,35 @@
       <div class="form-group">
         <input id="search-recipe-input" name="q" type="text" value="{{ query }}" />
       </div>
-      <div class="form-check" {% if not request.user.is_authenticated %}style="display: none;"{% endif %}>
-        <label class="form-check-label">
-          <input class="form-check-input" name="all" type="checkbox" value="all" {% if not own_ribbons %}CHECKED{% endif %} />
-          Include Others' Recipes
-        </label>
-      </div>
-      <div class="form-check" {% if not request.user.is_authenticated %}style="display: none;"{% endif %}>
-        <label class="form-check-label">
-          <input class="form-check-input" name="recipebox" type="checkbox" {% if recipe_box %}CHECKED{% endif %}/>
-          My Recipe Box
-        </label>
+      <div class="row" {% if not request.user.is_authenticated %}style="display: none;"{% endif %}>
+        <div class="col">
+          <div class="form-check" >
+            <label class="form-check-label">
+              <input class="form-check-input" name="all" type="checkbox" value="all" {% if not own_ribbons %}CHECKED{% endif %} />
+              Include Others' Recipes
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" name="recipebox" type="checkbox" {% if recipe_box %}CHECKED{% endif %}/>
+              My Recipe Box
+            </label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check" >
+            <label class="form-check-label">
+              <input class="form-check-input" name="thumbsup" type="checkbox" {% if thumbs_up %}CHECKED{% endif %} />
+              Only my thumbs up
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" name="used" type="checkbox" {% if used %}CHECKED{% endif %}/>
+              Only recipes I have used
+            </label>
+          </div>
+        </div>
       </div>
     </form>
   </div>

@@ -273,10 +273,17 @@ def search_recipes(request):
     else:
         ribbons = Ribbon.objects.filter(user=request.user)
 
-    if request.user.is_authenticated() and request.GET.get('recipebox'):
-        ctx['recipe_box'] = True
-        ribbons = ribbons.filter(user=request.user, is_boxed=True).order_by(
-            '-boxed_on', '-time_created')
+    if request.user.is_authenticated():
+        if request.GET.get('recipebox'):
+            ctx['recipe_box'] = True
+            ribbons = ribbons.filter(user=request.user, is_boxed=True).order_by(
+                '-boxed_on', '-time_created')
+        if request.GET.get('thumbsup'):
+            ctx['thumbs_up'] = True
+            ribbons = ribbons.filter(user=request.user, thumb=True)
+        if request.GET.get('used'):
+            ctx['used'] = True
+            ribbons = ribbons.filter(user=request.user, is_used=True)
 
     query = request.GET.get('q')
     if query:
