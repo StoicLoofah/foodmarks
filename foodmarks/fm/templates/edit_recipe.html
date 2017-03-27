@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block title %}foodmarks: {% if add %}Add Recipe{% else %}Edit {{recipe.title}}{% endif %}{% endblock %}
+{% block title %}{% if add %}Add Recipe{% else %}Edit {{recipe.title}}{% endif %}{% endblock %}
 
 {% block content %}
 {% spaceless %}
