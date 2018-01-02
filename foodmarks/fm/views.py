@@ -167,7 +167,7 @@ def _save_recipe(request, ctx, ribbon=None, recipe=None):
     else:
         if ribbon:
             tags = list(ribbon.tag_set.values_list('value', flat=True))
-        elif recipe and request.user.get_profile().copy_tags:
+        elif recipe and request.user.userprofile.copy_tags:
             tags = list(Tag.objects.filter(ribbon__recipe=recipe).values_list(
                 'value', flat=True).distinct())
         else:
@@ -357,7 +357,7 @@ def action(request):
                 return JsonResponse({'status': 'FAIL'})
         except ObjectDoesNotExist:
             ribbon = Ribbon(recipe=recipe, user=request.user)
-            copy_tags = request.user.get_profile().copy_tags
+            copy_tags = request.user.userprofile.copy_tags
         ribbon.is_boxed = new_status
         if ribbon.is_boxed:
             ribbon.boxed_on = datetime.datetime.now()
