@@ -17,29 +17,21 @@
         <div class="col">
           <div class="form-check" >
             <label class="form-check-label">
-              <input class="form-check-input" name="all" type="checkbox" value="all" {% if not own_ribbons %}CHECKED{% endif %} />
-              Include Others' Recipes
-            </label>
+              <input class="form-check-input" name="all" type="checkbox" value="all" {% if not own_ribbons %}CHECKED{% endif %} /> Include Others' Recipes</label>
           </div>
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" name="recipebox" type="checkbox" {% if recipe_box %}CHECKED{% endif %}/>
-              My Recipe Box
-            </label>
+              <input class="form-check-input" name="recipebox" type="checkbox" {% if recipe_box %}CHECKED{% endif %}/> My Recipe Box</label>
           </div>
         </div>
         <div class="col">
           <div class="form-check" >
             <label class="form-check-label">
-              <input class="form-check-input" name="thumbsup" type="checkbox" {% if thumbs_up %}CHECKED{% endif %} />
-              Only my thumbs up
-            </label>
+              <input class="form-check-input" name="thumbsup" type="checkbox" {% if thumbs_up %}CHECKED{% endif %} /> Only my thumbs up</label>
           </div>
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" name="used" type="checkbox" {% if used %}CHECKED{% endif %}/>
-              Only recipes I have used
-            </label>
+              <input class="form-check-input" name="used" type="checkbox" {% if used %}CHECKED{% endif %}/> Only recipes I have used</label>
           </div>
         </div>
       </div>
@@ -59,13 +51,7 @@
       {% if page != 1 %}
       <a href="#" page="{{page|add:'-1'}}">Prev</a>&nbsp;
       {% endif %}
-      {% for p in page_range %}
-      {% if p == page %}<span>{{p}}</span>&nbsp;
-      {% else %}<a href="#" page="{{p}}">{{p}}</a>&nbsp;{% endif %}
-      {% endfor %}
-      {% if page != num_pages and num_pages != 0 %}
-      <a href="#" page="{{page|add:'1'}}">Next</a>
-      {% endif %}
+      {% for p in page_range %} {% if p == page %}<span>{{p}}</span>&nbsp; {% else %}<a href="#" page="{{p}}">{{p}}</a>&nbsp;{% endif %} {% endfor %} {% if page != num_pages and num_pages != 0 %} <a href="#" page="{{page|add:'1'}}">Next</a> {% endif %}
     </div>
     {% endif %}
   </div>
