@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from forms import PreferencesForm
+from .forms import PreferencesForm
 
 
 @login_required(login_url='/accounts/login/')

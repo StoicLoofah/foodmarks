@@ -3,7 +3,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.db import models
 
-from constants import *
+from .constants import *
 
 class Recipe(models.Model):
     title = models.CharField(max_length=200)

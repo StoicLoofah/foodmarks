@@ -166,5 +166,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 try:
     from settings_local import *
 except ImportError:
-    print u'File settings_local.py is not found. Continuing with production settings.'
+    print('File settings_local.py is not found. Continuing with production settings.')
 

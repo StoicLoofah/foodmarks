@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib.auth.views import login, logout
 
-import views
+from . import views
 
 urlpatterns = [
     url(r'^preferences/$', views.preferences, name='preferences'),

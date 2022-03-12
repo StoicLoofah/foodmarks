@@ -14,9 +14,9 @@ from django.shortcuts import (
 from django.template import RequestContext
 from django.views.decorators.http import require_http_methods
 
-from constants import *
-from forms import *
-from models import *
+from .constants import *
+from .forms import *
+from .models import *
 
 PAGE_SIZE = 50
 

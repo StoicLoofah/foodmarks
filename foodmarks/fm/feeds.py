@@ -4,8 +4,8 @@ from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
-from models import Recipe
-from views import view_recipe
+from .models import Recipe
+from .views import view_recipe
 
 class NewestRecipesFeed(Feed):
     title = 'foodmarks Newest Recipes'
