@@ -5,13 +5,13 @@ import operator
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
 from django.db.models import Q, Count
 from django.http import HttpResponse, HttpResponseServerError
 from django.shortcuts import (
         render, redirect, get_object_or_404,
         )
 from django.template import RequestContext
+from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from .constants import *
@@ -229,7 +229,7 @@ def _paginate_content(request, ctx, key="ribbons"):
     if key == 'ribbons':
         ctx['ribbons'] = ctx['ribbons'].select_related('recipe')
 
-    ctx['page_range'] = xrange(1, ctx['num_pages'] + 1)
+    ctx['page_range'] = range(1, ctx['num_pages'] + 1)
     ctx['page'] = page
 
 
@@ -238,7 +238,7 @@ def view_recipe(request, recipe_id):
 
     recipe = get_object_or_404(Recipe, id=recipe_id)
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         try:
             ribbon = Ribbon.objects.get(recipe=recipe, user=request.user)
             ctx['ribbon'] = ribbon
@@ -266,14 +266,14 @@ def search_recipes(request):
     ctx = {}
 
     all_ribbons = request.GET.get('all', False) or \
-        not request.user.is_authenticated()
+        not request.user.is_authenticated
     ctx['own_ribbons'] = not all_ribbons
     if all_ribbons:
         ribbons = Ribbon.objects.all()
     else:
         ribbons = Ribbon.objects.filter(user=request.user)
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         if request.GET.get('recipebox'):
             ctx['recipe_box'] = True
             ribbons = ribbons.filter(user=request.user, is_boxed=True).order_by(
@@ -288,9 +288,9 @@ def search_recipes(request):
     query = request.GET.get('q')
     if query:
         ctx['query'] = query
-        ribbons = ribbons.filter(reduce(operator.and_,
-            (Q(recipe__title__icontains=token) | Q(tag__value__icontains=token)
-            for token in query.split(',') if token)))
+        for token in query.split(','):
+            if token:
+                ribbons = ribbons.filter(Q(recipe__title__icontains=token) | Q(tag__value__icontains=token))
 
     ribbons = ribbons.distinct()
     ctx['ribbons'] = ribbons

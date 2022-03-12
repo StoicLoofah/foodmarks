@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     mostly for preferences
     '''
 
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     copy_tags = models.BooleanField(
         default=True,
         verbose_name="Copy tags when adding someone else's recipe")

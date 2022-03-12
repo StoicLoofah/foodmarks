@@ -1,13 +1,15 @@
 from django.conf.urls import include, url
-from django.contrib.auth.views import login, logout
+from django.contrib.auth import views as auth_views
+from django.contrib.auth import logout
 
 from . import views
 
+app_name = 'accounts'
+
 urlpatterns = [
     url(r'^preferences/$', views.preferences, name='preferences'),
-    url(r'^login/', login,
-        {'template_name': 'accounts/login.html'}),
-    url(r'^logout/', logout, {'next_page': '/',}),
+    url(r'^login/', auth_views.LoginView.as_view(template_name='accounts/login.html')),
+    url(r'^logout/', auth_views.LogoutView.as_view()),
 ]
 
 

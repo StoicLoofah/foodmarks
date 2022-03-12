@@ -18,9 +18,8 @@ urlpatterns = [
     url(r'^feed/$', NewestRecipesFeed()),
     url(r'^$', views.index, name='index'),
     # url(r'^foodmarks/', include('foodmarks.foo.urls')),
-    url(r'^accounts/', include('accounts.urls')),
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/', include('accounts.urls', namespace='accounts')),
+    url(r'^admin/', admin.site.urls),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

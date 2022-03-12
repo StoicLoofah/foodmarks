@@ -84,7 +84,7 @@ STATICFILES_FINDERS = (
 SECRET_KEY = 'tt*cx4^pxt0#d&dk3dmqnrc6l%5gmu-dx1g_*u=%ksmqi7&zag'
 
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -160,6 +160,7 @@ LOGGING = {
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 LOGIN_REDIRECT_URL = '/search/'
+LOGOUT_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 

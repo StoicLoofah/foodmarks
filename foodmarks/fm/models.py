@@ -39,7 +39,7 @@ class Recipe(models.Model):
                 count += 1
         return count
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
@@ -52,8 +52,8 @@ class Recipe(models.Model):
 
 
 class Ribbon(models.Model):
-    recipe = models.ForeignKey(Recipe)
-    user = models.ForeignKey(User)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comments = models.TextField(
             blank=True, verbose_name="my comments")
     time_created = models.DateTimeField(auto_now_add=True)
@@ -75,7 +75,7 @@ class Ribbon(models.Model):
     def get_tags(self):
         return sorted(self.tag_set.values_list('value', flat=True).distinct())
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{0} Ribbon for {1}'.format(unicode(self.recipe),
                                            unicode(self.user))
 
@@ -85,9 +85,9 @@ class Ribbon(models.Model):
 
 
 class Tag(models.Model):
-    ribbon = models.ForeignKey(Ribbon)
+    ribbon = models.ForeignKey(Ribbon, on_delete=models.CASCADE)
     key = models.CharField(max_length=50, blank=True, help_text='Deprecated')
     value = models.CharField(max_length=50)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{0}: {1}'.format(self.key, self.value)
