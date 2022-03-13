@@ -81,7 +81,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'tt*cx4^pxt0#d&dk3dmqnrc6l%5gmu-dx1g_*u=%ksmqi7&zag'
+SECRET_KEY = ''
 
 
 MIDDLEWARE = (
