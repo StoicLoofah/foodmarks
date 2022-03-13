@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.flatpages',
     'crispy_forms',
+    'django_extensions',
     'accounts',
     'fm',
 )

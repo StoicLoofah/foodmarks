@@ -76,8 +76,7 @@ class Ribbon(models.Model):
         return sorted(self.tag_set.values_list('value', flat=True).distinct())
 
     def __str__(self):
-        return u'{0} Ribbon for {1}'.format(unicode(self.recipe),
-                                           unicode(self.user))
+        return u'{0} Ribbon for {1}'.format(self.recipe, self.user)
 
     class Meta:
         unique_together = ('recipe', 'user',)
