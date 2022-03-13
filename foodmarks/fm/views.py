@@ -6,7 +6,7 @@ import operator
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, Count
-from django.http import HttpResponse, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseServerError, JsonResponse
 from django.shortcuts import (
         render, redirect, get_object_or_404,
         )
@@ -19,19 +19,6 @@ from .forms import *
 from .models import *
 
 PAGE_SIZE = 50
-
-class JsonResponse(HttpResponse):
-    '''
-    this class makes it easier to quickly turn content into json and
-    return it as a response
-    '''
-
-    def __init__(self, content, content_type="application/json", *args, **kwargs):
-        if content:
-            content = json.dumps(content)
-        else:
-            content = json.dumps({})
-        super(JsonResponse, self).__init__(content, content_type=content_type, *args, **kwargs)
 
 
 def index(request):
@@ -271,7 +258,7 @@ def search_recipes(request):
     if all_ribbons:
         ribbons = Ribbon.objects.all()
     else:
-        ribbons = Ribbon.objects.filter(user=request.user)
+        ribbons = Ribbon.objects.filter(user=request.user).prefetch_related('tag_set')
 
     if request.user.is_authenticated:
         if request.GET.get('recipebox'):

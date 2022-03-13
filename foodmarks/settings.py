@@ -2,6 +2,7 @@ import os
 # Django settings for foodmarks project.
 
 DEBUG = True
+USE_DEBUG_TOOLBAR = False
 
 ADMINS = (
     ('', ''),
@@ -169,3 +170,8 @@ try:
 except ImportError:
     print('File settings_local.py is not found. Continuing with production settings.')
 
+if USE_DEBUG_TOOLBAR:
+    MIDDLEWARE = MIDDLEWARE + ('debug_toolbar.middleware.DebugToolbarMiddleware', )
+    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar', )
+    DEBUG_TOOLBAR_PATCH_SETTINGS = False
+    DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False, }
