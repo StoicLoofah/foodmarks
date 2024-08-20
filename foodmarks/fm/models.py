@@ -1,4 +1,5 @@
 import datetime
+from urllib.parse import urlparse
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -14,6 +15,11 @@ class Recipe(models.Model):
     directions = models.TextField(blank=True)
 
     time_created = models.DateTimeField(auto_now_add=True)
+
+    def get_domain(self):
+        if self.link:
+            return urlparse(self.link).netloc
+        return None
 
     def get_tags(self):
         return sorted(Tag.objects.filter(ribbon__recipe=self).values_list('value', flat=True).distinct())

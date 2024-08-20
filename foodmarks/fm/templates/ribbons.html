@@ -4,7 +4,7 @@
   <tr class="ribbon-listing listing">
     <td class="data">
       {% if recipe.link %}
-      <a class="title" href="{{recipe.link}}" target="_blank" title="{{recipe}}">{{recipe}}</a>
+      <a class="title" href="{{recipe.link}}" target="_blank" title="{{recipe}}">{{recipe}}</a><small> ({{ recipe.get_domain }})</small>
       {% else %}
       <a href="{% url 'view_recipe' recipe.id %}">{{recipe}}</a>
       {% endif %}
@@ -12,7 +12,7 @@
       <div class="actions">
         <input type="hidden" class="recipe-id" value="{{recipe.id}}" />
         <input type="hidden" class="ribbon-id" value="{{ribbon.id}}" />
-        <small><a class="add-to-box {% if ribbon.is_boxed %}hide{% endif %}" href="#">Add To Recipe Box</a><a class="remove-from-box {% if not ribbon.is_boxed %}hide{% endif %}" href="#">Remove From Recipe Box</a>&nbsp;|&nbsp;<a class="edit" href="{% url 'edit_recipe' ribbon.id %}">Edit</a>&nbsp;|&nbsp;<a class="delete-ribbon" href="#">Delete</a>{% if recipe.link %}&nbsp;|&nbsp;<a href="{% url 'view_recipe' recipe.id %}">View on foodmarks</a>{% endif %}&nbsp;{{ribbon.time_created|date:"d M y"}}</small>
+        <small>{% if ribbon.thumb %}&#128077;&nbsp;|&nbsp;{% elif ribbon.thumb == False %}&#128078;&nbsp;|&nbsp;{% elif ribbon.is_used %}Used&nbsp;|&nbsp;{% endif %}<a class="add-to-box {% if ribbon.is_boxed %}hide{% endif %}" href="#">Add To Recipe Box</a><a class="remove-from-box {% if not ribbon.is_boxed %}hide{% endif %}" href="#">Remove From Recipe Box</a>&nbsp;|&nbsp;<a class="edit" href="{% url 'edit_recipe' ribbon.id %}">Edit</a>&nbsp;|&nbsp;<a class="delete-ribbon" href="#">Delete</a>{% if recipe.link %}&nbsp;|&nbsp;<a href="{% url 'view_recipe' recipe.id %}">View on foodmarks</a>{% endif %}&nbsp;{{ribbon.time_created|date:"d M y"}}</small>
       </div>
       <div class="tags"> {% for tag in ribbon.tag_set.all %}<a href="{% url 'search_recipes' %}?q={{tag.value}}" ><span class="badge badge-secondary">{{tag.value}}</span></a>&nbsp; {% endfor %} </div>
     </td>
