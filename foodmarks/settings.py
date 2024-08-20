@@ -163,6 +163,8 @@ LOGOUT_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
+SESSION_COOKIE_AGE = 1209600 * 8  # 16 weeks
+
 try:
     from settings_local import *
 except ImportError:
