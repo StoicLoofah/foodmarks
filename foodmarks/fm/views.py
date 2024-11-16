@@ -271,6 +271,9 @@ def search_recipes(request):
         if request.GET.get('used'):
             ctx['used'] = True
             ribbons = ribbons.filter(user=request.user, is_used=True)
+        if request.GET.get('unused'):
+            ctx['unused'] = True
+            ribbons = ribbons.filter(user=request.user, is_used=False)
 
     query = request.GET.get('q')
     if query:

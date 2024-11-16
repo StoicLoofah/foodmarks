@@ -33,6 +33,10 @@
             <label class="form-check-label">
               <input class="form-check-input" name="used" type="checkbox" {% if used %}CHECKED{% endif %}/> Only recipes I have used</label>
           </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" name="unused" type="checkbox" {% if unused %}CHECKED{% endif %}/> Only new recipes</label>
+          </div>
         </div>
       </div>
     </form>
