@@ -9,7 +9,6 @@ include
 lib
 local
 env3
-progress.txt
 *.pdf
 *.sqlite3
 .claude/
