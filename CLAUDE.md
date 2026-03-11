@@ -23,6 +23,9 @@ cd foodmarks && python manage.py test
 
 # Run a single test
 cd foodmarks && python manage.py test fm.tests.TestClassName.test_method_name
+
+# Create dev superuser (admin/admin) non-interactively
+cd foodmarks && python manage.py create_dev_user
 ```
 
 Local settings (DB credentials, etc.) go in `foodmarks/settings_local.py` — imported at the bottom of `settings.py` if present.
