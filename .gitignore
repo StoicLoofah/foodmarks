@@ -9,3 +9,8 @@ include
 lib
 local
 env3
+progress.txt
+spec.md
+*.pdf
+*.sqlite3
+.claude/

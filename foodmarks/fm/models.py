@@ -1,10 +1,10 @@
-import datetime
 from urllib.parse import urlparse
 
 from django.contrib.auth.models import User
 from django.db import models
 
 from .constants import *
+
 
 class Recipe(models.Model):
     title = models.CharField(max_length=200)
@@ -22,7 +22,9 @@ class Recipe(models.Model):
         return None
 
     def get_tags(self):
-        return sorted(Tag.objects.filter(ribbon__recipe=self).values_list('value', flat=True).distinct())
+        return sorted(
+            Tag.objects.filter(ribbon__recipe=self).values_list("value", flat=True).distinct()
+        )
 
     def get_used_count(self):
         count = 0
@@ -34,14 +36,14 @@ class Recipe(models.Model):
     def get_thumbs_up_count(self):
         count = 0
         for ribbon in self.ribbon_set.all():
-            if ribbon.thumb == True:
+            if ribbon.thumb is True:
                 count += 1
         return count
 
     def get_thumbs_down_count(self):
         count = 0
         for ribbon in self.ribbon_set.all():
-            if ribbon.thumb == False:
+            if ribbon.thumb is False:
                 count += 1
         return count
 
@@ -49,50 +51,50 @@ class Recipe(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if self.link == '':
+        if self.link == "":
             self.link = None
         super(Recipe, self).save(*args, **kwargs)
 
     class Meta:
-        ordering = ['-time_created']
+        ordering = ["-time_created"]
 
 
 class Ribbon(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comments = models.TextField(
-            blank=True, verbose_name="my comments")
+    comments = models.TextField(blank=True, verbose_name="my comments")
     time_created = models.DateTimeField(auto_now_add=True)
 
-    is_boxed = models.BooleanField(
-            default=False, verbose_name="Include in your Recipe Box?")
+    is_boxed = models.BooleanField(default=False, verbose_name="Include in your Recipe Box?")
     boxed_on = models.DateTimeField(blank=True, null=True)
-    is_used = models.BooleanField(
-            default=False, verbose_name="Have you used this recipe?")
+    is_used = models.BooleanField(default=False, verbose_name="Have you used this recipe?")
 
     THUMB_CHOICES = (
-        (True, 'Thumbs Up'),
-        (False, 'Thumbs Down'),
-        )
+        (True, "Thumbs Up"),
+        (False, "Thumbs Down"),
+    )
     thumb = models.NullBooleanField(
-            blank=True, null=True, choices=THUMB_CHOICES,
-            verbose_name="How's the recipe?")
+        blank=True, null=True, choices=THUMB_CHOICES, verbose_name="How's the recipe?"
+    )
 
     def get_tags(self):
-        return sorted(self.tag_set.values_list('value', flat=True).distinct())
+        return sorted(self.tag_set.values_list("value", flat=True).distinct())
 
     def __str__(self):
-        return u'{0} Ribbon for {1}'.format(self.recipe, self.user)
+        return "{0} Ribbon for {1}".format(self.recipe, self.user)
 
     class Meta:
-        unique_together = ('recipe', 'user',)
-        ordering = ['-time_created']
+        unique_together = (
+            "recipe",
+            "user",
+        )
+        ordering = ["-time_created"]
 
 
 class Tag(models.Model):
     ribbon = models.ForeignKey(Ribbon, on_delete=models.CASCADE)
-    key = models.CharField(max_length=50, blank=True, help_text='Deprecated')
+    key = models.CharField(max_length=50, blank=True, help_text="Deprecated")
     value = models.CharField(max_length=50)
 
     def __str__(self):
-        return u'{0}: {1}'.format(self.key, self.value)
+        return "{0}: {1}".format(self.key, self.value)

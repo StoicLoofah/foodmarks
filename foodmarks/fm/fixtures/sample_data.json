@@ -1,0 +1,398 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "admin",
+      "password": "pbkdf2_sha256$260000$UkwcGvam3ECWjCAit4k69Q$vXXlsm0BcTHQ0SHE2gZUELuYzEu/4vhghHpzRM1/J08=",
+      "email": "admin@example.com",
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "is_superuser": true,
+      "last_login": null,
+      "date_joined": "2026-01-01T00:00:00",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.userprofile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "copy_tags": true
+    }
+  },
+  {
+    "model": "fm.recipe",
+    "pk": 1,
+    "fields": {
+      "title": "Classic Spaghetti Carbonara",
+      "link": "https://www.seriouseats.com/spaghetti-carbonara",
+      "servings": "4",
+      "description": "A classic Roman pasta dish with eggs, guanciale, and Pecorino Romano.",
+      "ingredients": "",
+      "directions": "",
+      "time_created": "2026-01-02T10:00:00"
+    }
+  },
+  {
+    "model": "fm.recipe",
+    "pk": 2,
+    "fields": {
+      "title": "Overnight Sourdough Bread",
+      "link": "https://www.kingarthurbaking.com/recipes/sourdough-bread",
+      "servings": "1 loaf",
+      "description": "Tangy, chewy sourdough with a crispy crust.",
+      "ingredients": "",
+      "directions": "",
+      "time_created": "2026-01-03T10:00:00"
+    }
+  },
+  {
+    "model": "fm.recipe",
+    "pk": 3,
+    "fields": {
+      "title": "Thai Green Curry",
+      "link": "https://www.recipetineats.com/thai-green-curry",
+      "servings": "4",
+      "description": "Fragrant and creamy Thai green curry with chicken and vegetables.",
+      "ingredients": "",
+      "directions": "",
+      "time_created": "2026-01-04T10:00:00"
+    }
+  },
+  {
+    "model": "fm.recipe",
+    "pk": 4,
+    "fields": {
+      "title": "Chocolate Lava Cake",
+      "link": "https://www.foodnetwork.com/recipes/chocolate-lava-cake",
+      "servings": "4",
+      "description": "Decadent individual chocolate cakes with a molten center.",
+      "ingredients": "",
+      "directions": "",
+      "time_created": "2026-01-05T10:00:00"
+    }
+  },
+  {
+    "model": "fm.recipe",
+    "pk": 5,
+    "fields": {
+      "title": "Roasted Butternut Squash Soup",
+      "link": "https://www.minimalistbaker.com/butternut-squash-soup",
+      "servings": "6",
+      "description": "Silky smooth soup with roasted squash and warming spices.",
+      "ingredients": "",
+      "directions": "",
+      "time_created": "2026-01-06T10:00:00"
+    }
+  },
+  {
+    "model": "fm.recipe",
+    "pk": 6,
+    "fields": {
+      "title": "Shakshuka",
+      "link": "https://www.ottolenghi.co.uk/recipes/shakshuka",
+      "servings": "2",
+      "description": "Eggs poached in a spiced tomato and pepper sauce.",
+      "ingredients": "",
+      "directions": "",
+      "time_created": "2026-01-07T10:00:00"
+    }
+  },
+  {
+    "model": "fm.recipe",
+    "pk": 7,
+    "fields": {
+      "title": "Beef Tacos al Pastor",
+      "link": "https://www.seriouseats.com/tacos-al-pastor",
+      "servings": "6",
+      "description": "Marinated pork tacos inspired by shawarma, with pineapple.",
+      "ingredients": "",
+      "directions": "",
+      "time_created": "2026-01-08T10:00:00"
+    }
+  },
+  {
+    "model": "fm.recipe",
+    "pk": 8,
+    "fields": {
+      "title": "Japanese Ramen",
+      "link": "https://www.seriouseats.com/tonkotsu-ramen",
+      "servings": "4",
+      "description": "Rich tonkotsu pork broth ramen with chashu and soft-boiled eggs.",
+      "ingredients": "",
+      "directions": "",
+      "time_created": "2026-01-09T10:00:00"
+    }
+  },
+  {
+    "model": "fm.recipe",
+    "pk": 9,
+    "fields": {
+      "title": "Lemon Olive Oil Cake",
+      "link": "https://www.bonappetit.com/recipe/lemon-olive-oil-cake",
+      "servings": "8",
+      "description": "Moist and fragrant cake with fresh lemon zest and olive oil.",
+      "ingredients": "",
+      "directions": "",
+      "time_created": "2026-01-10T10:00:00"
+    }
+  },
+  {
+    "model": "fm.recipe",
+    "pk": 10,
+    "fields": {
+      "title": "Grilled Salmon with Miso Glaze",
+      "link": "https://www.epicurious.com/recipes/miso-glazed-salmon",
+      "servings": "4",
+      "description": "Umami-rich miso-glazed salmon, broiled to perfection.",
+      "ingredients": "",
+      "directions": "",
+      "time_created": "2026-01-11T10:00:00"
+    }
+  },
+  {
+    "model": "fm.ribbon",
+    "pk": 1,
+    "fields": {
+      "recipe": 1,
+      "user": 1,
+      "comments": "Amazing weeknight pasta. Quick and impressive.",
+      "time_created": "2026-01-02T12:00:00",
+      "is_boxed": true,
+      "boxed_on": "2026-01-02T12:00:00",
+      "is_used": true,
+      "thumb": true
+    }
+  },
+  {
+    "model": "fm.ribbon",
+    "pk": 2,
+    "fields": {
+      "recipe": 2,
+      "user": 1,
+      "comments": "Need to buy a starter first.",
+      "time_created": "2026-01-03T12:00:00",
+      "is_boxed": true,
+      "boxed_on": "2026-01-03T12:00:00",
+      "is_used": false,
+      "thumb": null
+    }
+  },
+  {
+    "model": "fm.ribbon",
+    "pk": 3,
+    "fields": {
+      "recipe": 3,
+      "user": 1,
+      "comments": "Better than the local Thai place!",
+      "time_created": "2026-01-04T12:00:00",
+      "is_boxed": false,
+      "boxed_on": null,
+      "is_used": true,
+      "thumb": true
+    }
+  },
+  {
+    "model": "fm.ribbon",
+    "pk": 4,
+    "fields": {
+      "recipe": 4,
+      "user": 1,
+      "comments": "For special occasions. Very rich.",
+      "time_created": "2026-01-05T12:00:00",
+      "is_boxed": true,
+      "boxed_on": "2026-01-05T12:00:00",
+      "is_used": false,
+      "thumb": null
+    }
+  },
+  {
+    "model": "fm.ribbon",
+    "pk": 5,
+    "fields": {
+      "recipe": 5,
+      "user": 1,
+      "comments": "Great for meal prep. Freezes well.",
+      "time_created": "2026-01-06T12:00:00",
+      "is_boxed": false,
+      "boxed_on": null,
+      "is_used": true,
+      "thumb": true
+    }
+  },
+  {
+    "model": "fm.ribbon",
+    "pk": 6,
+    "fields": {
+      "recipe": 6,
+      "user": 1,
+      "comments": "Perfect weekend brunch.",
+      "time_created": "2026-01-07T12:00:00",
+      "is_boxed": true,
+      "boxed_on": "2026-01-07T12:00:00",
+      "is_used": true,
+      "thumb": true
+    }
+  },
+  {
+    "model": "fm.ribbon",
+    "pk": 7,
+    "fields": {
+      "recipe": 7,
+      "user": 1,
+      "comments": "Took all day but worth it.",
+      "time_created": "2026-01-08T12:00:00",
+      "is_boxed": false,
+      "boxed_on": null,
+      "is_used": true,
+      "thumb": false
+    }
+  },
+  {
+    "model": "fm.ribbon",
+    "pk": 8,
+    "fields": {
+      "recipe": 8,
+      "user": 1,
+      "comments": "The broth takes 12 hours. Plan ahead.",
+      "time_created": "2026-01-09T12:00:00",
+      "is_boxed": true,
+      "boxed_on": "2026-01-09T12:00:00",
+      "is_used": false,
+      "thumb": null
+    }
+  },
+  {
+    "model": "fm.ribbon",
+    "pk": 9,
+    "fields": {
+      "recipe": 9,
+      "user": 1,
+      "comments": "Light and not too sweet. Great with coffee.",
+      "time_created": "2026-01-10T12:00:00",
+      "is_boxed": false,
+      "boxed_on": null,
+      "is_used": true,
+      "thumb": true
+    }
+  },
+  {
+    "model": "fm.ribbon",
+    "pk": 10,
+    "fields": {
+      "recipe": 10,
+      "user": 1,
+      "comments": "Quick and healthy weeknight dinner.",
+      "time_created": "2026-01-11T12:00:00",
+      "is_boxed": true,
+      "boxed_on": "2026-01-11T12:00:00",
+      "is_used": true,
+      "thumb": true
+    }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 1,
+    "fields": { "ribbon": 1, "key": "", "value": "pasta" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 2,
+    "fields": { "ribbon": 1, "key": "", "value": "italian" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 3,
+    "fields": { "ribbon": 2, "key": "", "value": "baking" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 4,
+    "fields": { "ribbon": 2, "key": "", "value": "bread" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 5,
+    "fields": { "ribbon": 3, "key": "", "value": "asian" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 6,
+    "fields": { "ribbon": 3, "key": "", "value": "spicy" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 7,
+    "fields": { "ribbon": 4, "key": "", "value": "dessert" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 8,
+    "fields": { "ribbon": 4, "key": "", "value": "chocolate" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 9,
+    "fields": { "ribbon": 5, "key": "", "value": "soup" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 10,
+    "fields": { "ribbon": 5, "key": "", "value": "vegetarian" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 11,
+    "fields": { "ribbon": 6, "key": "", "value": "breakfast" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 12,
+    "fields": { "ribbon": 6, "key": "", "value": "vegetarian" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 13,
+    "fields": { "ribbon": 7, "key": "", "value": "mexican" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 14,
+    "fields": { "ribbon": 7, "key": "", "value": "grilling" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 15,
+    "fields": { "ribbon": 8, "key": "", "value": "asian" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 16,
+    "fields": { "ribbon": 8, "key": "", "value": "soup" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 17,
+    "fields": { "ribbon": 9, "key": "", "value": "baking" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 18,
+    "fields": { "ribbon": 9, "key": "", "value": "dessert" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 19,
+    "fields": { "ribbon": 10, "key": "", "value": "seafood" }
+  },
+  {
+    "model": "fm.tag",
+    "pk": 20,
+    "fields": { "ribbon": 10, "key": "", "value": "healthy" }
+  }
+]
