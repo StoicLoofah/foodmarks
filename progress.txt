@@ -1,1 +1,2 @@
-No active spec. Ready for next task.
+Task 1: DONE — create_dev_user management command created and committed.
+Task 2: IN PROGRESS — creating sample data fixture.
