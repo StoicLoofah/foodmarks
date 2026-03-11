@@ -26,6 +26,16 @@ cd foodmarks && python manage.py test fm.tests.TestClassName.test_method_name
 
 # Create dev superuser (admin/admin) non-interactively
 cd foodmarks && python manage.py create_dev_user
+
+# Load sample data fixture (10 recipe bookmarks for admin user)
+cd foodmarks && python manage.py loaddata sample_data
+
+# UI verification via Playwright (requires Playwright MCP loaded in session)
+# 1. Start dev server as background process
+cd foodmarks && python manage.py runserver &
+# 2. Use Playwright MCP tools to navigate and screenshot http://127.0.0.1:8000/
+# 3. Stop server: kill %1
+# Alternatively, use npx playwright screenshot http://127.0.0.1:8000/ /tmp/shot.png
 ```
 
 Local settings (DB credentials, etc.) go in `foodmarks/settings_local.py` — imported at the bottom of `settings.py` if present.
