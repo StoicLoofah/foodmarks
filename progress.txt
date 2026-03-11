@@ -1,4 +1,6 @@
 Task 1: DONE — create_dev_user management command created and committed.
 Task 2: DONE — sample_data fixture with 10 recipes committed.
 Task 3: DONE — 38 real Django unit tests, all passing.
-Task 4: IN PROGRESS — verifying Playwright MCP.
+Task 4: DONE — dev server verified (recipe list visible), documented in CLAUDE.md.
+Task 5: DONE — PR #13 created, CI green (harness-verification branch).
+COMPLETE
