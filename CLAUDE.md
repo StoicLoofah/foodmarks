@@ -5,10 +5,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-# Setup virtual environment
+# Setup virtual environment (uses Python 3.12 via pyenv)
+pyenv local 3.12.9
 python3 -m venv env3
 source env3/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt  # base deps (no MySQL)
+# pip install -r requirements-prod.txt  # adds mysqlclient for production
 
 # Run development server (from foodmarks/ subdirectory)
 cd foodmarks && python manage.py runserver
@@ -53,3 +55,25 @@ Templates live in `foodmarks/fm/templates/` and `foodmarks/accounts/templates/ac
 ### Frontend
 
 Bootstrap 4.6.2, jQuery 3.7.1, and Selectize.js (for tag autocomplete) are all loaded via CDN. Custom JS is in `foodmarks/static/js/main.js` (~60 lines). The bookmarklet at `/bookmarklet/` accepts `?url=` and `?title=` query params for quick capture from the browser.
+
+## Agent Rules
+
+These rules encode past failures as permanent constraints. When Claude produces an
+undesired output, add a rule here rather than correcting the output manually.
+
+### Before implementing anything
+- Search the codebase first: use Grep/Glob to verify the feature doesn't already exist
+- Read `progress.txt` to see what's already been done this session
+
+### After any code change
+- Run: `cd foodmarks && ruff check . --fix && ruff format . && python manage.py test`
+- Do NOT mark a task complete if lint or tests fail
+- Use Playwright MCP to verify UI changes in the browser at http://127.0.0.1:8000
+
+### Task tracking (Ralph Wiggum method)
+- At session start: read `spec.md` for requirements, read `progress.txt` for state
+- After each completed task: update `progress.txt`, then commit
+- State lives in files — not in conversation history
+
+### Encoding failures
+- When a mistake occurs, add a specific rule to this section before moving on

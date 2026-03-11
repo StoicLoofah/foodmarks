@@ -1,0 +1,9 @@
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+exclude = ["**/migrations", "env3", "env", ".git"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+# F403/F405: star imports are used intentionally in admin/forms; fix incrementally
+ignore = ["F403", "F405"]

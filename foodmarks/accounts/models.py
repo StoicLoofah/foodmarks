@@ -11,8 +11,8 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     copy_tags = models.BooleanField(
-        default=True,
-        verbose_name="Copy tags when adding someone else's recipe")
+        default=True, verbose_name="Copy tags when adding someone else's recipe"
+    )
 
     def __str__(self):
         return self.user.username
