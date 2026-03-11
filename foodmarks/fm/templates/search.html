@@ -72,25 +72,43 @@
   }
 
   $(document).ready(function(){
-      var tags = {{ search_tags_json|safe }};
-      _.forEach(tags, function(tag) {
-        tag.text = tag.value + ' (' + tag.count + ')';
-      });
+    var tags = {{ search_tags_json|safe }};
+    var tagValues = new Set(tags.map(function(t){ return t.value; }));
 
-    $("#search-recipe-input").selectize({
+    var ts = new TomSelect('#search-recipe-input', {
       create: true,
+      maxItems: null,
       delimiter: ',',
+      valueField: 'value',
+      labelField: 'value',
+      searchField: ['value'],
       options: tags,
-      closeAfterSelect: true
-    }).change(submitForm);
+      closeAfterSelect: true,
+      render: {
+        option: function(data, escape) {
+          return '<div>' + escape(data.value) +
+            ' <span class="badge badge-secondary">' + (data.count || '') + '</span></div>';
+        },
+        item: function(data, escape) {
+          var cls = tagValues.has(data.value) ? 'badge badge-primary' : 'badge badge-warning';
+          return '<div class="' + cls + '">' + escape(data.value) + '</div>';
+        }
+      },
+      onItemAdd: function(value) {
+        submitForm();
+      },
+      onItemRemove: function(value) {
+        submitForm();
+      }
+    });
+
     $('.form-check-input').change(submitForm);
 
     $('#pagination a').click(function(){
       $('#page').val($(this).attr('page'));
       $('#searchform').submit();
       return false;
-      });
-
+    });
   });
 </script>
 {% endblock %}

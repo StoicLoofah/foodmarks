@@ -48,14 +48,18 @@
       }).trigger('focusout');
 
     var allTags = {{ all_tags|safe }};
-    var processedTags = _.map(allTags, function(tag) {return {text: tag, value: tag};});
+    var processedTags = allTags.map(function(tag){ return {value: tag}; });
 
-    $("#current-tags").selectize({
+    new TomSelect('#current-tags', {
       create: true,
+      maxItems: null,
       delimiter: ',',
+      valueField: 'value',
+      labelField: 'value',
+      searchField: ['value'],
       options: processedTags,
       closeAfterSelect: true
-    })
+    });
 
   });
 </script>
