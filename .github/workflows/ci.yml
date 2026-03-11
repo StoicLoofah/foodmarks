@@ -26,6 +26,7 @@ jobs:
       - name: Write CI settings
         run: |
           cat > foodmarks/settings_local.py << 'EOF'
+          SECRET_KEY = "ci-insecure-key-for-testing-only"
           DATABASES = {
               'default': {
                   'ENGINE': 'django.db.backends.sqlite3',
