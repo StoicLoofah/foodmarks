@@ -25,7 +25,7 @@ cd foodmarks && python manage.py test
 cd foodmarks && python manage.py test fm.tests.TestClassName.test_method_name
 
 # Create dev superuser (admin/admin) non-interactively
-cd foodmarks && python manage.py create_dev_user
+cd foodmarks && DJANGO_SUPERUSER_PASSWORD=admin python manage.py createsuperuser --username admin --email admin@example.com --no-input
 
 # Load sample data fixture (10 recipe bookmarks for admin user)
 cd foodmarks && python manage.py loaddata sample_data
