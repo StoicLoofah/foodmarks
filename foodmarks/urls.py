@@ -9,11 +9,11 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r"^add/", views.add_recipe, name="add_recipe"),
-    url(r"^action/", views.action),
+    url(r"^action/", views.action, name="action"),
     url(r"^bookmarklet/", views.bookmarklet),
     url(r"^edit/(\d+)/$", views.edit_recipe, name="edit_recipe"),
     url(r"^recipe/(\d+)/$", views.view_recipe, name="view_recipe"),
-    url(r"^ribbon/delete/(\d+)/$", views.delete_ribbon),
+    url(r"^ribbon/delete/(\d+)/$", views.delete_ribbon, name="delete_ribbon"),
     url(r"^search/$", views.search_recipes, name="search_recipes"),
     url(r"^feed/$", NewestRecipesFeed()),
     url(r"^$", views.index, name="index"),

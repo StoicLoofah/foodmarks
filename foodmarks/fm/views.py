@@ -310,12 +310,12 @@ def delete_ribbon(request, ribbon_id):
     try:
         ribbon = Ribbon.objects.get(id=ribbon_id, user=request.user)
     except ObjectDoesNotExist:
-        return JsonResponse("ERROR")
+        return JsonResponse("ERROR", safe=False)
     recipe = ribbon.recipe
     ribbon.delete()
     if not recipe.ribbon_set.exists():
         recipe.delete()
-    return JsonResponse("OK")
+    return JsonResponse("OK", safe=False)
 
 
 @login_required(login_url="/accounts/login/")
@@ -329,12 +329,12 @@ def action(request):
         try:
             ribbon = Ribbon.objects.get(id=ribbon_id, user=request.user)
         except ObjectDoesNotExist:
-            return JsonResponse("ERROR")
+            return JsonResponse("ERROR", safe=False)
         recipe = ribbon.recipe
         ribbon.delete()
         if not recipe.ribbon_set.exists():
             recipe.delete()
-        return JsonResponse("OK")
+        return JsonResponse("OK", safe=False)
     elif action == "changeBoxStatus":
         new_status = request.POST.get("newStatus", None) == "true"
         recipe_id = request.POST.get("recipeId", None)
